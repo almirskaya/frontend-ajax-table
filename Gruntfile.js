@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 					SRC_DIR + '/**/*.*',
 					TEST_DIR + '/**/*.*'
 				],
-				//tasks: ['jshint'],
+				tasks: ['build-dev'],
 				options: {
 					interrupt: true,
 					livereload: 35729
@@ -67,6 +67,13 @@ module.exports = function (grunt) {
 					config[BUILD_DIR + '/index.html'] = SRC_DIR + '/index.html'
 					return config;
 				}())
+			},
+			dev: {
+				files: (function() {
+					var config = {};
+					config[BUILD_DIR + '/index.html'] = SRC_DIR + '/index.html'
+					return config;
+				}())
 			}
 		},
 		systemjs: {
@@ -109,5 +116,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('live', ['watch']);
 	grunt.registerTask('code', ['jshint:dev']);
 	grunt.registerTask('test', ['systemjs:test', 'jasmine', 'clean:test']);
+	grunt.registerTask('build-dev', ['clean:build', 'systemjs:build', 'targethtml:dev', 'copy:build']);
 	grunt.registerTask('build', ['clean:build', 'systemjs:build', 'targethtml:build', 'copy:build']);
 };
